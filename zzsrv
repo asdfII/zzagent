@@ -1,0 +1,15 @@
+#!/usr/bin/python
+# -*- coding: utf-8 -*-
+
+from zzagent.scripts import zzserver
+from zzagent.utils import is_windows
+
+
+if __name__ == '__main__':
+    if is_windows():
+        import os.path
+        import py_compile
+        cfile = os.path.splitext(__file__)[0] + '.pyc'
+        if not os.path.exists(cfile):
+            py_compile.compile(__file__, cfile)
+    zzserver()
