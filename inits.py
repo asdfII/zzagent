@@ -42,6 +42,7 @@ def create_client_ini(host='localhost'):
             f.write('[client]\n')
             f.write('server_host = %s\n' % host)
             f.write('server_port = 9999\n')
+            f.write('redial_count = 0\n')
             f.write('timeout = 30\n')
             f.write('clientpath = %s\n' % create_dirpath('client'))
     return cliini

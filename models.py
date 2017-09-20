@@ -30,6 +30,7 @@ client_config = ConfigParser.ConfigParser()
 client_config.read(create_client_ini())
 SERVERPATH = server_config.get('server', 'serverpath')
 CLIENTPATH = client_config.get('client', 'clientpath')
+REDIAL_COUNT = int(client_config.get('client', 'redial_count'))
 
 RECV_SAFEMODE = 0
 RECV_BUFSIZE = 4096
@@ -167,15 +168,17 @@ class Client(object):
             client_connected = False
             time.sleep(3+random())
             counter += 1
-            #~ if counter < 100:
-            if counter < 10:
-                if counter % 2 == 0:
-                    print('[%s]: Client is reconnecting(%d).' % (
-                        get_time(), counter))
+            if REDIAL_COUNT == 0:
                 self.run(counter)
             else:
-                print('[%s]: Client will stop with some retries.' % get_time())
-                sys.exit(1)
+                if counter < REDIAL_COUNT:
+                    if counter % 3 == 0:
+                        print('[%s]: Client is reconnecting(%d).' % (
+                            get_time(), counter))
+                    self.run(counter)
+                else:
+                    print('[%s]: Client will stop with some retries.' % get_time())
+                    sys.exit(1)
         
         while client_connected:
             # TODO: multiple processes maybe broken. Need handler to handle.

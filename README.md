@@ -1,6 +1,4 @@
-# zzagent
-
-操作说明v1
+# zzagent操作说明v1
 一． 安装环境
 1. CentOS 7/Debian 8
 2. Python 2.7.6+（但2.7.9除外）
