@@ -53,7 +53,7 @@ class ServerDaemon(Daemon):
         print('[%s]: %s starts.' % (
             get_time(), self.__class__.__name__.rstrip('Daemon')))
         
-        rpc_server = RPCServer((host, 9998))
+        rpc_server = RPCServer((host, int(port)-1))
         rs = threading.Thread(target=rpc_server.serve_forever)
         rs.daemon = True
         rs.start()
@@ -67,7 +67,7 @@ class ServerDaemon(Daemon):
         dispatcher.register('GET', '/exec_config', exec_config)
         dispatcher.register('GET', '/init_environ', init_environ)
         
-        http_server = HttpServer(host, 9988, zz_tasks)
+        http_server = HttpServer(host, int(port)-2, zz_tasks)
         hs = threading.Thread(target=http_server.serve_forever)
         hs.daemon = True
         hs.start()
